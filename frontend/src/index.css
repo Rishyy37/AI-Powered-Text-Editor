@@ -11,7 +11,7 @@ body {
 }
 
 .editor {
-  flex: 2;
+  flex: 3;
   padding: 0rem;
   display: flex;
   flex-direction: column;
@@ -31,8 +31,8 @@ textarea{
 }
 
 .controls {
-  flex: 1;
-  margin: 0em 0em 0em 2em;
+  flex: 2;
+  margin: 0em 0em 0em 15px;
   padding: 1em 0em 1em 2em;
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@ p{
 }
 
 .controls input[type="range"] {
-  width: 100%;
+  width: 80%;
   margin: 1rem 0;
 }
 
@@ -73,11 +73,10 @@ p{
 
 
 .range-container{
-  /* display: flex; */
   position: relative;
   width: 300px;
-  /* align-content: space-around; */
-  top: -20px;
+  /* width: 80%; */
+  top: -10%;
 
 }
 
@@ -85,17 +84,16 @@ p{
   position: relative;
   font-size: 15px;
   color: grey;
-  /* height: 20px; */
 }
 
 #formal{
   position: absolute;
-  left: -15px;
+  left: -5%;
 }
 
 #casual{
   position: absolute;
-  right: -15px;
+  right: 15%;
 }
 
 .buttons{
@@ -116,4 +114,31 @@ button:hover{
 
 .error {
   color: red;
+}
+
+.history-panel {
+  flex: 1;
+  margin-left: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 20px 7px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-list li {
+  cursor: pointer;
+  padding: 5px 0;
+  font-size: 0.9em;
+  border-bottom: 1px dashed #ddd;
+}
+
+.history-list li:hover {
+  background-color: #f2f2f2;
 }

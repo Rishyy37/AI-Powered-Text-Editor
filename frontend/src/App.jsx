@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import './index.css';
 
-// Import components
 import Editor from './components/Editor';
 import Controls from './components/Controls';
 
@@ -19,18 +18,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load saved text from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('toneText');
     if (saved) setText(saved);
   }, []);
 
-  // Save text to localStorage
   useEffect(() => {
     localStorage.setItem('toneText', text);
   }, [text]);
 
-  // Handle tone adjustment
   const handleToneChange = async (newTone) => {
     setToneLevel(newTone);
     setLoading(true);
@@ -51,7 +47,6 @@ export default function App() {
     }
   };
 
-  // Handle Go button
   const handleGo = () => {
     if (text.trim() === '') {
       window.alert("Please enter some text before adjusting the tone.");
@@ -61,15 +56,12 @@ export default function App() {
     handleToneChange(pendingTone);
   };
 
-  // Undo
   const handleUndo = () => {
-
-    console.log("Undo : ",history.length)
-    if (!history.length || history.length == 1){
-      window.alert("Please enter some text before adjusting the tone.");
+    if (!history.length || history.length === 1) {
+      window.alert("No more undo steps available.");
       return;
-    } 
-    
+    }
+
     const prev = history[history.length - 1];
     setFuture([{ text, tone: toneLevel }, ...future]);
     setText(prev.text);
@@ -79,16 +71,10 @@ export default function App() {
     setHistory(history.slice(0, -1));
   };
 
-  // Redo
   const handleRedo = () => {
-    console.log("Redo : ",history.length)
-    if (text.trim() === '') {
-      window.alert("Please enter some text before adjusting the tone.");
-      return;
-    }
     if (!future.length) return;
+
     const next = future[0];
-    
     setHistory([...history, { text, tone: toneLevel }]);
     setText(next.text);
     setPendingTone(next.tone);
@@ -97,10 +83,9 @@ export default function App() {
     setFuture(future.slice(1));
   };
 
-  // Reset
   const handleReset = () => {
-    if(text.trim() === ''){
-      window.alert("Please enter some text before adjusting the tone.");
+    if (text.trim() === '') {
+      window.alert("Please enter some text before resetting.");
       return;
     }
     setHistory([...history, { text, tone: toneLevel }]);
@@ -109,6 +94,17 @@ export default function App() {
     setSliderValue(50);
     setPendingTone(50);
     setFuture([]);
+  };
+
+  // NEW: Load selected history version
+  const loadHistoryVersion = (index) => {
+    const selected = history[index];
+    setFuture([{ text, tone: toneLevel }, ...future]);
+    setText(selected.text);
+    setPendingTone(selected.tone);
+    setSliderValue(selected.tone);
+    setToneLevel(selected.tone);
+    setHistory(history.slice(0, index));
   };
 
   return (
@@ -129,6 +125,22 @@ export default function App() {
         canRedo={future.length > 0}
         loading={loading}
       />
+
+      {/* NEW History Panel */}
+      <div className="history-panel px-3">
+        <p style={{ fontWeight: 600 }}>History</p>
+        {history.length === 0 ? (
+          <p style={{ fontSize: '0.9em', color: 'gray' }}>No history yet.</p>
+        ) : (
+          <ul className="history-list">
+            {history.map((entry, index) => (
+              <li key={index} onClick={() => loadHistoryVersion(index)}>
+                <span style={{ fontWeight: 'bold' }}>Tone {entry.tone}</span> — {entry.text.slice(0, 30)}...
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
