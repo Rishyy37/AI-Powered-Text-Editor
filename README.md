@@ -62,3 +62,48 @@ PORT = 3001
 5. Click Reset to clear all content and history.
 
 6. On refresh, your text and history remain intact.
+
+## 🧠 Technical Overview
+### 🔧 Technical Architecture
+* Frontend: React + Bootstrap for UI and interactions
+* Backend: Node.js + Express for API requests and caching
+* Mistral AI: Used for tone adjustment (mistral-small)
+* Cache: node-cache with 5-minute TTL
+* Persistence: localStorage for saved text
+
+Trade-offs:
+
+* No database used (lightweight app)
+* Chose tone scale (0–100) for flexibility over fixed presets
+
+### 🔁 State Management (Undo/Redo)
+
+* text, toneLevel, pendingTone, sliderValue: main states
+* history: stores previous text/tone (for undo)
+* future: stores undone states (for redo)
+
+Actions:
+
+* Undo: Restores from history, pushes current to future
+* Redo: Re-applies next item in future
+* Reset: Clears text and tone, saves current to history
+* Go : Executes the message retrieval based on the tone.
+
+### ⚠️ Error & Edge Case Handling
+Frontend
+* Alerts if text is empty on tone adjust/reset
+* Disables undo/redo buttons when not possible
+* Shows loading spinner while waiting for Mistral
+* Displays error messages on failure
+
+Backend
+* Validates text and toneLevel
+* Caches responses for repeated inputs
+* Gracefully returns error if Mistral API fails
+
+
+### Demo Video
+
+Loom video link : https://www.loom.com/share/b3f5c68ae8f246609bb356debb02ae73?sid=4926f698-6d6d-40d3-8e08-5b9719ae0210
+
+
