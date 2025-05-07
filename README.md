@@ -1,4 +1,4 @@
-# 🎚️ Tone Slider Text Tool
+# 🎚️ AI Powered Text Editor
 
 A web-based application that allows users to adjust the **tone of text** between **casual** and **formal** using a **slider interface** powered by the **Mistral AI API**. Features include real-time tone transformation, undo/redo capabilities, reset functionality, error handling, and persistent local storage.
 
@@ -20,7 +20,7 @@ A web-based application that allows users to adjust the **tone of text** between
 ### 📁 Clone Repository
 
 ```bash
-git clone https://github.com/your-username/tone-slider-tool.git
+git clone https://github.com/your-username/AI-powered-text-editor.git
 cd tone-slider-tool
 ```
 
